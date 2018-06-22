@@ -27,14 +27,9 @@ If you find PoseCNN useful in your research, please consider citing:
 
 1. Install [TensorFlow](https://www.tensorflow.org/get_started/os_setup). I usually compile the source code of tensorflow locally.
 
-2. Compile the new layers under $ROOT/lib we introduce in PoseCNN.
-    ```Shell
-    cd $ROOT/lib
-    sh make.sh
-    ```
-3. Download the VGG16 weights from [here](https://drive.google.com/open?id=1UdmOKrr9t4IetMubX-y-Pcn7AVaWJ2bL) (528M). Put the weight file vgg16.npy to $ROOT/data/imagenet_models.
+2. Download the VGG16 weights from [here](https://drive.google.com/open?id=1UdmOKrr9t4IetMubX-y-Pcn7AVaWJ2bL) (528M). Put the weight file vgg16.npy to $ROOT/data/imagenet_models.
 
-4. Compile lib/synthesize with cmake (optional). This package contains a few useful tools such as generating synthetic images for training and ICP.
+3. Compile lib/synthesize with cmake. This package contains a few useful tools such as generating synthetic image and ICP.
 
    Install dependencies:
    - [Pangolin](https://github.com/stevenlovegrove/Pangolin)
@@ -58,7 +53,13 @@ If you find PoseCNN useful in your research, please consider citing:
     make
     ```
 
-    Add the path of the built libary libsynthesizer.so to python path
+    Compile the Cython interface for lib/synthesize and custom layers
+    ```Shell
+    cd $ROOT/lib
+    python setup.py build_ext --inplace
+    ```
+
+    Add the libary path
     ```Shell
     export PYTHONPATH=$PYTHONPATH:$ROOT/lib/synthesize/build
     ```
