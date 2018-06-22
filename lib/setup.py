@@ -115,9 +115,9 @@ def lib_libdir_from_flags(flags):
 tf_compile_flags = [f for f in tf.sysconfig.get_compile_flags() if not f.startswith('-I')]
 tf_include_dirs = includes_from_flags(tf.sysconfig.get_compile_flags())
 
-opencv_cflags = subprocess.check_output(['pkg-config', '--cflags', 'opencv-3.3.1-dev']).split()
+opencv_cflags = subprocess.check_output(['pkg-config', '--cflags', 'opencv']).split()
 opencv_includes = includes_from_flags(opencv_cflags)
-opencv_libs = subprocess.check_output(['pkg-config', '--libs', 'opencv-3.3.1-dev']).split()
+opencv_libs = subprocess.check_output(['pkg-config', '--libs', 'opencv']).split()
 opencv_libdirs, opencv_libs = lib_libdir_from_flags(opencv_libs)
 
 def custom_tf_op(name, sources, use_opencv=False):
@@ -151,7 +151,7 @@ ext_modules = [
         ['hough_voting_gpu_layer/hough_voting_gpu_op_cc.cu',
          'hough_voting_gpu_layer/hough_voting_gpu_op.cc'],
         use_opencv=True),
-    custom_tf_op('hough_voting_layer.houg_voting',
+    custom_tf_op('hough_voting_layer.hough_voting',
         ['hough_voting_layer/Hypothesis.cpp',
          'hough_voting_layer/thread_rand.cpp',
          'hough_voting_layer/hough_voting_op.cc'],
