@@ -134,7 +134,7 @@ if __name__ == '__main__':
         index = np.where(class_indexes >= 0)[0]
         num = len(index)
         qt = np.zeros((3, 4, num), dtype=np.float32)
-        for j in xrange(num):
+        for j in range(num):
             ind = index[j]
             qt[:, :3, j] = quat2mat(poses[ind, :4])
             qt[:, 3, j] = poses[ind, 4:]
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
         # save meta_data
         filename = root + '{:06d}-meta.mat'.format(i)
-        print filename
+        print(filename)
         scipy.io.savemat(filename, metadata, do_compression=True)
 
         i += 1

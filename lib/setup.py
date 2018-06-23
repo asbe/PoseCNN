@@ -49,7 +49,7 @@ def locate_cuda():
     cudaconfig = {'home':home, 'nvcc':nvcc,
                   'include': pjoin(home, 'include'),
                   'lib64': pjoin(home, 'lib64')}
-    for k, v in cudaconfig.iteritems():
+    for k, v in cudaconfig.items():
         if not os.path.exists(v):
             raise EnvironmentError('The CUDA %s path could not be located in %s' % (k, v))
 
@@ -165,7 +165,7 @@ ext_modules = [
     custom_tf_op('lifted_structured_loss.lifted_structured_loss',
         ['lifted_structured_loss/lifted_structured_loss_op_gpu.cu',
          'lifted_structured_loss/lifted_structured_loss_op.cc']),
-    custom_tf_op('computing_flow_layer.computing_flow_layer',
+    custom_tf_op('computing_flow_layer.computing_flow',
         ['computing_flow_layer/computing_flow_op_gpu.cu',
          'computing_flow_layer/computing_flow_op.cc']),
     custom_tf_op('backprojecting_layer.backprojecting',

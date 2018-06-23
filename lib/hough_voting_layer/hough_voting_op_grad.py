@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import hough_voting_op
+from . import hough_voting_op
 
 @ops.RegisterShape("Houghvoting")
 def _hough_voting_shape(op):

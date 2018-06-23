@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import lifted_structured_loss_op
+from . import lifted_structured_loss_op
 
 @ops.RegisterGradient("Liftedstruct")
 def _liftedstruct_grad(op, grad, _):

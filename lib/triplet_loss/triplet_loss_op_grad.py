@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import triplet_loss_op
+from . import triplet_loss_op
 
 @ops.RegisterGradient("Triplet")
 def _triplet_grad(op, grad, _):

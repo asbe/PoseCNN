@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import projecting_op
+from . import projecting_op
 '''
 @tf.RegisterShape("Project")
 def _project_shape(op):

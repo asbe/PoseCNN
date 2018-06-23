@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import hard_label_op
+from . import hard_label_op
 
 @ops.RegisterShape("Hardlabel")
 def _hard_label_shape(op):

@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import backprojecting_op
+from . import backprojecting_op
 '''
 @tf.RegisterShape("Backproject")
 def _backproject_shape(op):

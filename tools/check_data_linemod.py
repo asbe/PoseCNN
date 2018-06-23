@@ -28,8 +28,8 @@ if __name__ == '__main__':
 
     root = '/home/yuxiang/Projects/Deep_Pose/data/LINEMOD/data/'
 
-    for k in xrange(num_seqs):
-        for i in xrange(num_images[k]):
+    for k in range(num_seqs):
+        for i in range(num_images[k]):
             '''
             # color
             filename = root + '{:04d}/{:06d}-color.png'.format(k, i+1)
@@ -48,5 +48,5 @@ if __name__ == '__main__':
             '''
             # save meta_data
             filename = root + '{:02d}/{:06d}-meta.mat'.format(k+1, i+1)
-            print filename
+            print(filename)
             meta_data = scipy.io.loadmat(filename)

@@ -71,7 +71,7 @@ def _get_image_blob(roidb, scale_ind):
     processed_ims_depth = []
     processed_ims_normal = []
     im_scales = []
-    for i in xrange(num_images):
+    for i in range(num_images):
         # depth raw
         im_depth_raw = pad_im(cv2.imread(roidb[i]['depth'], cv2.IMREAD_UNCHANGED), 16)
 
@@ -157,13 +157,13 @@ def _process_label_image(label_image, class_colors, class_weights):
     if len(label_image.shape) == 3:
         # label image is in BGR order
         index = label_image[:,:,2] + 256*label_image[:,:,1] + 256*256*label_image[:,:,0]
-        for i in xrange(len(class_colors)):
+        for i in range(len(class_colors)):
             color = class_colors[i]
             ind = color[0] + 256*color[1] + 256*256*color[2]
             I = np.where(index == ind)
             label_index[I[0], I[1], i] = class_weights[i]
     else:
-        for i in xrange(len(class_colors)):
+        for i in range(len(class_colors)):
             I = np.where(label_image == i)
             label_index[I[0], I[1], i] = class_weights[i]
     
@@ -178,7 +178,7 @@ def _get_label_blob(roidb, voxelizer):
     processed_label = []
     processed_meta_data = []
 
-    for i in xrange(num_images):
+    for i in range(num_images):
         # load meta data
         meta_data = scipy.io.loadmat(roidb[i]['meta_data'])
         im_depth = pad_im(cv2.imread(roidb[i]['depth'], cv2.IMREAD_UNCHANGED), 16)
@@ -255,7 +255,7 @@ def _get_label_blob(roidb, voxelizer):
     depth_blob = np.zeros((num_images, height, width, 1), dtype=np.float32)
     label_blob = np.zeros((num_images, height, width, num_classes), dtype=np.float32)
     meta_data_blob = np.zeros((num_images, 1, 1, 48), dtype=np.float32)
-    for i in xrange(num_images):
+    for i in range(num_images):
         depth_blob[i,:,:,0] = processed_depth[i]
         label_blob[i,:,:,:] = processed_label[i]
         meta_data_blob[i,0,0,:] = processed_meta_data[i]
@@ -272,7 +272,7 @@ def _vis_minibatch(im_blob, im_normal_blob, depth_blob, label_blob):
     import matplotlib.pyplot as plt
 
     for i in range(im_blob.shape[1]):
-        for j in xrange(im_blob.shape[0]):
+        for j in range(im_blob.shape[0]):
             fig = plt.figure()
             # show image
             im = im_blob[j, i, :, :, :].copy()
@@ -301,7 +301,7 @@ def _vis_minibatch(im_blob, im_normal_blob, depth_blob, label_blob):
             width = label.shape[1]
             num_classes = label.shape[2]
             l = np.zeros((height, width), dtype=np.int32)
-            for k in xrange(num_classes):
+            for k in range(num_classes):
                 index = np.where(label[:,:,k] > 0)
                 l[index] = k
             fig.add_subplot(224)

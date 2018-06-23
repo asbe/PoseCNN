@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     cfg.GPU_ID = args.gpu_id
     device_name = '/gpu:{:d}'.format(args.gpu_id)
-    print device_name
+    print(device_name)
 
     cfg.TRAIN.NUM_STEPS = 1
     cfg.TRAIN.GRID_SIZE = cfg.TEST.GRID_SIZE
@@ -103,14 +103,14 @@ if __name__ == '__main__':
 
     from networks.factory import get_network
     network = get_network(args.network_name)
-    print 'Use network `{:s}` in training'.format(args.network_name)
+    print('Use network `{:s}` in training'.format(args.network_name))
 
     # start a session
     saver = tf.train.Saver()
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6)
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True, gpu_options=gpu_options))
     saver.restore(sess, args.model)
-    print ('Loading model weights from {:s}').format(args.model)
+    print(('Loading model weights from {:s}').format(args.model))
 
     if cfg.TEST.SINGLE_FRAME:
         if cfg.TEST.SEGMENTATION:

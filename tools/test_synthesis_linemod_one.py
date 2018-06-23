@@ -94,7 +94,7 @@ if __name__ == '__main__':
     extent_file = '/home/yuxiang/Projects/Deep_Pose/data/LINEMOD/extents.txt'
     extents = np.zeros((9, 3), dtype=np.float32)
     extents[1:, :] = np.loadtxt(extent_file).astype(np.float32)
-    print extents
+    print(extents)
 
     i = 0
     while i < num_images:
@@ -153,6 +153,6 @@ if __name__ == '__main__':
         # save meta_data
         filename = root + '{:06d}-meta.mat'.format(i)
         scipy.io.savemat(filename, metadata, do_compression=True)
-        print filename
+        print(filename)
 
         i += 1

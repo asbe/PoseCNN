@@ -28,7 +28,7 @@ if __name__ == '__main__':
     root = '/capri/YCB_Video_Dataset/data_syn/'
     # root = '/nas-homes/yuxiang/LINEMOD_SIXD/data_syn/'
 
-    for i in xrange(num_images):
+    for i in range(num_images):
         '''
         # color
         filename = root + '{:06d}-color.png'.format(i)
@@ -47,5 +47,5 @@ if __name__ == '__main__':
         '''
         # save meta_data
         filename = root + '{:06d}-meta.mat'.format(i)
-        print filename
+        print(filename)
         meta_data = scipy.io.loadmat(filename)

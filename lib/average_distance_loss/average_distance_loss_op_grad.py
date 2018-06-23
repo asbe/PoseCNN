@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import average_distance_loss_op
+from . import average_distance_loss_op
 
 @ops.RegisterGradient("Averagedistance")
 def _average_distance_grad(op, grad, _):

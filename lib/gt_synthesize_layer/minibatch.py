@@ -47,7 +47,7 @@ def get_minibatch(roidb, extents, points, symmetry, num_classes, backgrounds, in
 
     # rescale the points
     point_blob = points.copy()
-    for i in xrange(1, num_classes):
+    for i in range(1, num_classes):
         # compute the rescaling factor for the points
         weight = 2.0 / np.amax(extents[i, :])
         if weight < 10:
@@ -91,7 +91,7 @@ def _get_image_blob(roidb, scale_ind, num_classes, backgrounds, intrinsic_matrix
     roidb_syn = []
     data_out = []
 
-    for i in xrange(num_images):
+    for i in range(num_images):
 
         if is_adapt:
             if cfg.INPUT == 'DEPTH' or cfg.INPUT == 'RGBD' or cfg.INPUT == 'NORMAL':
@@ -138,11 +138,11 @@ def _get_image_blob(roidb, scale_ind, num_classes, backgrounds, intrinsic_matrix
                         background = np.zeros((rgba.shape[0], rgba.shape[1]), dtype=np.uint16)
                     else:
                         background = np.zeros((rgba.shape[0], rgba.shape[1], 3), dtype=np.uint8)
-                    print 'bad background image'
+                    print('bad background image')
 
                 if cfg.INPUT != 'DEPTH' and cfg.INPUT != 'NORMAL' and len(background.shape) != 3:
                     background = np.zeros((rgba.shape[0], rgba.shape[1], 3), dtype=np.uint8)
-                    print 'bad background image'
+                    print('bad background image')
 
                 # add background
                 im = np.copy(rgba[:,:,:3])
@@ -252,14 +252,14 @@ def _process_label_image(label_image, class_colors, class_weights):
     if len(label_image.shape) == 3:
         # label image is in BGR order
         index = label_image[:,:,2] + 256*label_image[:,:,1] + 256*256*label_image[:,:,0]
-        for i in xrange(len(class_colors)):
+        for i in range(len(class_colors)):
             color = class_colors[i]
             ind = color[0] + 256*color[1] + 256*256*color[2]
             I = np.where(index == ind)
             label_index[I[0], I[1], i] = class_weights[i]
             labels[I[0], I[1]] = i
     else:
-        for i in xrange(len(class_colors)):
+        for i in range(len(class_colors)):
             I = np.where(label_image == i)
             label_index[I[0], I[1], i] = class_weights[i]
             labels[I[0], I[1]] = i
@@ -297,7 +297,7 @@ def _get_label_blob(roidb, intrinsic_matrix, data_out, num_classes, db_inds_syn,
     else:
         gt_boxes = []
 
-    for i in xrange(num_images):
+    for i in range(num_images):
         im_scale = im_scales[i]
 
         if is_adapt:
@@ -389,7 +389,7 @@ def _get_label_blob(roidb, intrinsic_matrix, data_out, num_classes, db_inds_syn,
 
                 num = poses.shape[2]
                 qt = np.zeros((num, 13), dtype=np.float32)
-                for j in xrange(num):
+                for j in range(num):
                     R = poses[:, :3, j]
                     T = poses[:, 3, j]
 
@@ -438,7 +438,7 @@ def _get_label_blob(roidb, intrinsic_matrix, data_out, num_classes, db_inds_syn,
 
                 num = poses.shape[2]
                 qt = np.zeros((num, 13), dtype=np.float32)
-                for j in xrange(num):
+                for j in range(num):
                     R = poses[:, :3, j]
                     T = poses[:, 3, j]
 
@@ -503,7 +503,7 @@ def _get_label_blob(roidb, intrinsic_matrix, data_out, num_classes, db_inds_syn,
     depth_blob = np.zeros((num_images, blob_height, blob_width, 1), dtype=np.float32)
     meta_data_blob = np.zeros((num_images, 1, 1, 48), dtype=np.float32)
 
-    for i in xrange(num_images):
+    for i in range(num_images):
         depth_blob[i,:,:,0] = processed_depth[i]
         meta_data_blob[i,0,0,:] = processed_meta_data[i]
 
@@ -512,7 +512,7 @@ def _get_label_blob(roidb, intrinsic_matrix, data_out, num_classes, db_inds_syn,
     else:
         label_blob = np.zeros((num_images, blob_height, blob_width), dtype=np.int32)
 
-        for i in xrange(num_images):
+        for i in range(num_images):
             label_blob[i,:,:] = processed_label[i]
 
         # filter bad boxes
@@ -532,7 +532,7 @@ def _flip_poses(poses, K, width):
 
     num = poses.shape[2]
     poses_new = poses.copy()
-    for i in xrange(num):
+    for i in range(num):
         pose = poses[:, :, i]
         poses_new[:, :, i] = np.matmul(np.linalg.inv(K), np.matmul(K1, pose))
 
@@ -548,7 +548,7 @@ def _generate_vertex_targets(im_label, cls_indexes, center, poses, num_classes, 
 
     if is_multi_instances:
         c = np.zeros((2, 1), dtype=np.float32)
-        for i in xrange(len(cls_indexes)):
+        for i in range(len(cls_indexes)):
             cls = int(cls_indexes[i])
             y, x = np.where((mask == cls_indexes_old[i]+1) & (im_label == cls))
             I = np.where((mask == cls_indexes_old[i]+1) & (im_label == cls))
@@ -574,7 +574,7 @@ def _generate_vertex_targets(im_label, cls_indexes, center, poses, num_classes, 
                 vertex_weights[y, x, 3*cls+2] = cfg.TRAIN.VERTEX_W_INSIDE
     else:
         c = np.zeros((2, 1), dtype=np.float32)
-        for i in xrange(1, num_classes):
+        for i in range(1, num_classes):
             y, x = np.where(im_label == i)
             I = np.where(im_label == i)
             ind = np.where(cls_indexes == i)[0]
@@ -651,7 +651,7 @@ def _vis_minibatch(im_blob, im_depth_blob, depth_blob, label_blob, meta_data_blo
     """Visualize a mini-batch for debugging."""
     import matplotlib.pyplot as plt
 
-    for i in xrange(im_blob.shape[0]):
+    for i in range(im_blob.shape[0]):
         fig = plt.figure()
         # show image
         im = im_blob[i, :, :, :].copy()
@@ -665,7 +665,7 @@ def _vis_minibatch(im_blob, im_depth_blob, depth_blob, label_blob, meta_data_blo
         # project the 3D box to image
         metadata = meta_data_blob[i, 0, 0, :]
         intrinsic_matrix = metadata[:9].reshape((3,3))
-        for j in xrange(pose_blob.shape[0]):
+        for j in range(pose_blob.shape[0]):
             if pose_blob[j, 0] != i:
                 continue
 
@@ -713,7 +713,7 @@ def _vis_minibatch(im_blob, im_depth_blob, depth_blob, label_blob, meta_data_blo
         if cfg.TRAIN.VERTEX_REG_2D or cfg.TRAIN.VERTEX_REG_3D:
             vertex_target = vertex_target_blob[i, :, :, :]
             center = np.zeros((height, width, 3), dtype=np.float32)
-        for k in xrange(num_classes):
+        for k in range(num_classes):
             index = np.where(label == k)
             if cfg.TRAIN.VERTEX_REG_2D or cfg.TRAIN.VERTEX_REG_3D and len(index[0]) > 0 and k > 0:
                 center[index[0], index[1], :] = vertex_target[index[0], index[1], 3*k:3*k+3]
@@ -749,7 +749,7 @@ def _vis_minibatch_box(im_blob, gt_boxes):
     """Visualize a mini-batch for debugging."""
     import matplotlib.pyplot as plt
 
-    for i in xrange(im_blob.shape[0]):
+    for i in range(im_blob.shape[0]):
         fig = plt.figure()
         # show image
         im = im_blob[i, :, :, :].copy()
@@ -762,7 +762,7 @@ def _vis_minibatch_box(im_blob, gt_boxes):
 
         ax = fig.add_subplot(1, 2, 2)
         plt.imshow(im)
-        for j in xrange(gt_boxes.shape[0]):
+        for j in range(gt_boxes.shape[0]):
             x1 = gt_boxes[j, 0]
             y1 = gt_boxes[j, 1]
             x2 = gt_boxes[j, 2]

@@ -62,7 +62,7 @@ def _get_image_blob(roidb, scale_ind):
     if cfg.TRAIN.GAN:
         processed_ims_rescale = []
 
-    for i in xrange(num_images):
+    for i in range(num_images):
         # meta data
         meta_data = scipy.io.loadmat(roidb[i]['meta_data'])
         K = meta_data['intrinsic_matrix'].astype(np.float32, copy=True)
@@ -163,7 +163,7 @@ def _process_label_image(label_image, class_colors, class_weights):
     if len(label_image.shape) == 3:
         # label image is in BGR order
         index = label_image[:,:,2] + 256*label_image[:,:,1] + 256*256*label_image[:,:,0]
-        for i in xrange(len(class_colors)):
+        for i in range(len(class_colors)):
             color = class_colors[i]
             ind = color[0] + 256*color[1] + 256*256*color[2]
             I = np.where(index == ind)
@@ -173,7 +173,7 @@ def _process_label_image(label_image, class_colors, class_weights):
                 label_index[I[0], I[1], i] = class_weights[i]
             labels[I[0], I[1]] = i
     else:
-        for i in xrange(len(class_colors)):
+        for i in range(len(class_colors)):
             I = np.where(label_image == i)
             if cfg.TRAIN.GAN:
                 label_index[I[0], I[1], i] = 1.0
@@ -199,7 +199,7 @@ def _get_label_blob(roidb, voxelizer, im_scales):
     else:
         pose_blob = []
 
-    for i in xrange(num_images):
+    for i in range(num_images):
         im_scale = im_scales[i]
 
         # load meta data
@@ -226,7 +226,7 @@ def _get_label_blob(roidb, voxelizer, im_scales):
         if num_classes == 2:
             I = np.where(im > 0)
             im[I[0], I[1]] = 1
-            for j in xrange(len(meta_data['cls_indexes'])):
+            for j in range(len(meta_data['cls_indexes'])):
                 meta_data['cls_indexes'][j] = 1
         im_cls, im_labels = _process_label_image(im, roidb[i]['class_colors'], roidb[i]['class_weights'])
         processed_label.append(im_cls)
@@ -243,7 +243,7 @@ def _get_label_blob(roidb, voxelizer, im_scales):
 
             num = poses.shape[2]
             qt = np.zeros((num, 13), dtype=np.float32)
-            for j in xrange(num):
+            for j in range(num):
                 R = poses[:, :3, j]
                 T = poses[:, 3, j]
 
@@ -321,7 +321,7 @@ def _get_label_blob(roidb, voxelizer, im_scales):
     else:
         gan_z_blob = []
 
-    for i in xrange(num_images):
+    for i in range(num_images):
         depth_blob[i,:,:,0] = processed_depth[i]
         label_blob[i,:,:,:] = processed_label[i]
         meta_data_blob[i,0,0,:] = processed_meta_data[i]
@@ -340,7 +340,7 @@ def _vote_centers(im_label, cls_indexes, center, poses, num_classes):
     vertex_weights = np.zeros(vertex_targets.shape, dtype=np.float32)
 
     c = np.zeros((2, 1), dtype=np.float32)
-    for i in xrange(1, num_classes):
+    for i in range(1, num_classes):
         y, x = np.where(im_label == i)
         if len(x) > 0:
             ind = np.where(cls_indexes == i)[0] 
@@ -406,7 +406,7 @@ def _get_vertex_regression_labels(im_label, vertmap, extents, num_classes):
     azimuth_sin = np.sin(np.arctan2(vertmap[:, :, 1], vertmap[:, :, 0]))
     azimuth_cos = np.cos(np.arctan2(vertmap[:, :, 1], vertmap[:, :, 0]))
     
-    for i in xrange(1, num_classes):
+    for i in range(1, num_classes):
         I = np.where(im_label == i)
         if len(I[0]) > 0:
             start = 2 * i
@@ -434,7 +434,7 @@ def _get_gan_labels(im_label, class_colors, num_classes):
     width = im_label.shape[1]
     labels_color = np.zeros((num_classes, 3), dtype=np.float32)
 
-    for i in xrange(num_classes):
+    for i in range(num_classes):
         labels_color[i, 0] = class_colors[i][0] - cfg.PIXEL_MEANS[0, 0, 2]
         labels_color[i, 1] = class_colors[i][1] - cfg.PIXEL_MEANS[0, 0, 1]
         labels_color[i, 2] = class_colors[i][2] - cfg.PIXEL_MEANS[0, 0, 0]
@@ -465,7 +465,7 @@ def _vis_minibatch(im_blob, im_normal_blob, depth_blob, label_blob, meta_data_bl
     """Visualize a mini-batch for debugging."""
     import matplotlib.pyplot as plt
 
-    for i in xrange(im_blob.shape[0]):
+    for i in range(im_blob.shape[0]):
         fig = plt.figure()
         # show image
         im = im_blob[i, :, :, :].copy()
@@ -478,8 +478,8 @@ def _vis_minibatch(im_blob, im_normal_blob, depth_blob, label_blob, meta_data_bl
         # project the 3D box to image
         metadata = meta_data_blob[i, 0, 0, :]
         intrinsic_matrix = metadata[:9].reshape((3,3))
-        print intrinsic_matrix
-        for j in xrange(pose_blob.shape[0]):
+        print(intrinsic_matrix)
+        for j in range(pose_blob.shape[0]):
             if pose_blob[j, 0] != i:
                 continue
 
@@ -525,7 +525,7 @@ def _vis_minibatch(im_blob, im_normal_blob, depth_blob, label_blob, meta_data_bl
         if cfg.TRAIN.VERTEX_REG:
             vertex_target = vertex_target_blob[i, :, :, :]
             center = np.zeros((height, width, 3), dtype=np.float32)
-        for k in xrange(num_classes):
+        for k in range(num_classes):
             index = np.where(label[:,:,k] > 0)
             l[index] = k
             if cfg.TRAIN.VERTEX_REG and len(index[0]) > 0 and k > 0:

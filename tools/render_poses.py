@@ -112,7 +112,7 @@ if __name__ == '__main__':
     if is_show:
         perm = np.random.permutation(np.arange(num_images))
     else:
-        perm = xrange(num_images)
+        perm = range(num_images)
 
     for i in perm:
 
@@ -127,7 +127,7 @@ if __name__ == '__main__':
         num = poses.shape[2]
         channel = 8
         qt = np.zeros((num, channel), dtype=np.float32)
-        for j in xrange(num):
+        for j in range(num):
             class_id = int(meta_data['cls_indexes'][j]) - 1
             RT = se3_mul(poses[:,:,j], model_transforms[:,:,class_id])
 
@@ -163,4 +163,4 @@ if __name__ == '__main__':
             # save image
             filename = root + '{:06d}-object.png'.format(i)
             cv2.imwrite(filename, im_syn)
-            print filename
+            print(filename)

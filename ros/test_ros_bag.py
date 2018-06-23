@@ -92,11 +92,11 @@ if __name__ == '__main__':
     # K = np.array([[565.2146606445312, 0.0, 316.7839657704098], [0.0, 527.93408203125, 259.8812293402443], [0.0, 0.0, 1.0]])
     K = np.array([[1066.778, 0, 312.9869], [0, 1067.487, 241.3109], [0, 0, 1]])
     meta_data = dict({'intrinsic_matrix': K, 'factor_depth': 1000.0})
-    print meta_data
+    print(meta_data)
 
     cfg.GPU_ID = args.gpu_id
     device_name = '/gpu:{:d}'.format(args.gpu_id)
-    print device_name
+    print(device_name)
 
     cfg.TRAIN.NUM_STEPS = 1
     cfg.TRAIN.GRID_SIZE = cfg.TEST.GRID_SIZE
@@ -113,14 +113,14 @@ if __name__ == '__main__':
 
     from networks.factory import get_network
     network = get_network(args.network_name)
-    print 'Use network `{:s}` in training'.format(args.network_name)
+    print('Use network `{:s}` in training'.format(args.network_name))
 
     # start a session
     saver = tf.train.Saver()
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6)
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True, gpu_options=gpu_options))
     saver.restore(sess, args.model)
-    print ('Loading model weights from {:s}').format(args.model)
+    print(('Loading model weights from {:s}').format(args.model))
 
     # ros bag
     bag = rosbag.Bag(args.bag_name)
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
     count = 1
     for topic, msg, t in bag.read_messages(topics=['/camera/rgb/image_rect_color', '/camera/depth_registered/sw_registered/image_rect']):
-        print count, topic
+        print(count, topic)
         if topic == '/camera/rgb/image_rect_color':
             rgb = msg
         if topic == '/camera/depth_registered/sw_registered/image_rect':

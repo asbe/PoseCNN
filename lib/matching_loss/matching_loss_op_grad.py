@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import matching_loss_op
+from . import matching_loss_op
 
 @ops.RegisterShape("Matching")
 def _matching_shape(op):

@@ -3,9 +3,9 @@
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Xinlei Chen
 # --------------------------------------------------------
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import numpy as np
 from rpn_layer.generate_anchors import generate_anchors

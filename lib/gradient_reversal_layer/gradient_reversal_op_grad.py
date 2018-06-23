@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import gradient_reversal_op
+from . import gradient_reversal_op
 
 @ops.RegisterShape("Gradientreversal")
 def _gradient_reversal_shape(op):

@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.python.framework import ops
-import computing_flow_op
+from . import computing_flow_op
 '''
 @tf.RegisterShape("Computeflow")
 def _computeflow_shape(op):

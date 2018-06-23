@@ -54,7 +54,7 @@ class ImageListener:
 
         filename = 'images/%06d-depth.png' % self.count
         cv2.imwrite(filename, depth_cv)
-        print filename
+        print(filename)
         self.count += 1
 
         # run network
@@ -233,20 +233,20 @@ class ImageListener:
                 # rois = rois[keep, :]
                 # poses_init = poses_init[keep, :]
                 # poses_pred = poses_pred[keep, :]
-                print rois
+                print(rois)
 
                 # combine poses
                 num = rois.shape[0]
                 poses = poses_init
-                for i in xrange(num):
+                for i in range(num):
                     class_id = int(rois[i, 1])
                     if class_id >= 0:
                         poses[i, :4] = poses_pred[i, 4*class_id:4*class_id+4]
             else:
                 labels_2d, probs, vertex_pred, rois, poses = \
                     sess.run([net.get_output('label_2d'), net.get_output('prob_normalized'), net.get_output('vertex_pred'), net.get_output('rois'), net.get_output('poses_init')])
-                print rois
-                print rois.shape
+                print(rois)
+                print(rois.shape)
                 # non-maximum suppression
                 # keep = nms(rois[:, 2:], 0.5)
                 # rois = rois[keep, :]

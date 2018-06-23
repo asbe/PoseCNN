@@ -18,7 +18,7 @@ import libsynthesizer
 import scipy.io
 import cv2
 import numpy as np
-import cPickle
+import pickle
 
 def parse_args():
     """
@@ -104,14 +104,14 @@ if __name__ == '__main__':
     extent_file = '/home/yuxiang/Projects/Deep_Pose/data/LOV/extents.txt'
     extents = np.zeros((num_classes + 1, 3), dtype=np.float32)
     extents[1:, :] = np.loadtxt(extent_file).astype(np.float32)
-    print extents
+    print(extents)
 
     # load background
     cache_file = cfg.BACKGROUND
     if os.path.exists(cache_file):
         with open(cache_file, 'rb') as fid:
-            backgrounds = cPickle.load(fid)
-        print 'backgrounds loaded from {}'.format(cache_file)
+            backgrounds = pickle.load(fid)
+        print('backgrounds loaded from {}'.format(cache_file))
 
     i = 0
     while i < num_images:
@@ -170,11 +170,11 @@ if __name__ == '__main__':
                 background = np.zeros((rgba.shape[0], rgba.shape[1]), dtype=np.uint16)
             else:
                 background = np.zeros((rgba.shape[0], rgba.shape[1], 3), dtype=np.uint8)
-            print 'bad background image'
+            print('bad background image')
 
         if cfg.INPUT != 'DEPTH' and cfg.INPUT != 'NORMAL' and len(background.shape) != 3:
             background = np.zeros((rgba.shape[0], rgba.shape[1], 3), dtype=np.uint8)
-            print 'bad background image'
+            print('bad background image')
 
         # add background
         im = np.copy(rgba[:,:,:3])
@@ -200,6 +200,6 @@ if __name__ == '__main__':
         # save meta_data
         filename = root + '{:06d}-meta.mat'.format(i)
         scipy.io.savemat(filename, metadata, do_compression=True)
-        print filename
+        print(filename)
 
         i += 1

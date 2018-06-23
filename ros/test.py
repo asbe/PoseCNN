@@ -28,7 +28,7 @@ def test_ros(sess, network, imdb, meta_data, cfg, rgb, depth, cv_bridge, count):
 
     filename = 'images/%06d-depth.png' % count
     cv2.imwrite(filename, depth_cv)
-    print filename
+    print(filename)
 
     # run network
     labels, probs, vertex_pred, rois, poses = im_segment_single_frame(sess, network, im, depth_cv, meta_data, \
@@ -49,7 +49,7 @@ def extract_vertmap(im_label, vertex_pred, extents, num_classes):
     width = im_label.shape[1]
     vertmap = np.zeros((height, width, 3), dtype=np.float32)
 
-    for i in xrange(1, num_classes):
+    for i in range(1, num_classes):
         I = np.where(im_label == i)
         if len(I[0]) > 0:
             start = 3 * i
@@ -193,20 +193,20 @@ def im_segment_single_frame(sess, net, im, im_depth, meta_data, extents, points,
             # rois = rois[keep, :]
             # poses_init = poses_init[keep, :]
             # poses_pred = poses_pred[keep, :]
-            print rois
+            print(rois)
 
             # combine poses
             num = rois.shape[0]
             poses = poses_init
-            for i in xrange(num):
+            for i in range(num):
                 class_id = int(rois[i, 1])
                 if class_id >= 0:
                     poses[i, :4] = poses_pred[i, 4*class_id:4*class_id+4]
         else:
             labels_2d, probs, vertex_pred, rois, poses = \
                 sess.run([net.get_output('label_2d'), net.get_output('prob_normalized'), net.get_output('vertex_pred'), net.get_output('rois'), net.get_output('poses_init')])
-            print rois
-            print rois.shape
+            print(rois)
+            print(rois.shape)
             # non-maximum suppression
             # keep = nms(rois[:, 2:], 0.5)
             # rois = rois[keep, :]
@@ -246,7 +246,7 @@ def vis_segmentations_vertmaps(im, im_depth, im_labels, colors, center_map,
 
     if cfg.TEST.VERTEX_REG_2D:
         # show centers
-        for i in xrange(rois.shape[0]):
+        for i in range(rois.shape[0]):
             if rois[i, 1] == 0:
                 continue
             cx = (rois[i, 2] + rois[i, 4]) / 2
@@ -280,7 +280,7 @@ def vis_segmentations_vertmaps(im, im_depth, im_labels, colors, center_map,
         ax = fig.add_subplot(3, 4, 3, aspect='equal')
         plt.imshow(im)
         ax.invert_yaxis()
-        for i in xrange(rois.shape[0]):
+        for i in range(rois.shape[0]):
             cls = int(rois[i, 1])
             if cls > 0:
                 # extract 3D points
@@ -308,7 +308,7 @@ def vis_segmentations_vertmaps(im, im_depth, im_labels, colors, center_map,
             ax = fig.add_subplot(3, 4, 4, aspect='equal')
             plt.imshow(im)
             ax.invert_yaxis()
-            for i in xrange(rois.shape[0]):
+            for i in range(rois.shape[0]):
                 cls = int(rois[i, 1])
                 if cls > 0:
                     # extract 3D points

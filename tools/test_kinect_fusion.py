@@ -81,8 +81,8 @@ if __name__ == '__main__':
 
     video_index = ''
     have_prediction = False
-    for i in xrange(num_images):
-        print i
+    for i in range(num_images):
+        print(i)
         # parse image name
         image_index = imdb.image_index[i]
         pos = image_index.find('/')
@@ -100,10 +100,10 @@ if __name__ == '__main__':
                     # save the model
                     filename = '/var/Projects/FCN/data/RGBDScene/models/' + video_index + '.ply'
                     KF.save_model(filename)
-                    print 'save model to file: {}'.format(filename)
+                    print('save model to file: {}'.format(filename))
 
                 video_index = image_index[:pos]
-                print 'start video {}'.format(video_index)
+                print('start video {}'.format(video_index))
                 have_prediction = False
                 KF.reset()
 
@@ -148,15 +148,15 @@ if __name__ == '__main__':
             frame_index += 1
 
         KF.fuse_depth()
-        print 'finish fuse depth'
+        print('finish fuse depth')
         KF.extract_surface()
-        print 'finish extract surface'
+        print('finish extract surface')
         KF.render()
-        print 'finish render'
+        print('finish render')
         KF.feed_label(im, labels_voxel, colors)
-        print 'finish feed label'
+        print('finish feed label')
         KF.draw()
-        print 'finish draw'
+        print('finish draw')
 
         have_prediction = True
 

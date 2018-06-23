@@ -17,7 +17,7 @@ from fcn.config import cfg, cfg_from_file, get_output_dir
 import scipy.io
 import cv2
 import numpy as np
-import cPickle
+import pickle
 import libsynthesizer
 
 def parse_args():
@@ -111,8 +111,8 @@ if __name__ == '__main__':
     cache_file = cfg.BACKGROUND
     if os.path.exists(cache_file):
         with open(cache_file, 'rb') as fid:
-            backgrounds = cPickle.load(fid)
-        print 'backgrounds loaded from {}'.format(cache_file)
+            backgrounds = pickle.load(fid)
+        print('backgrounds loaded from {}'.format(cache_file))
 
     i = 0
     while i < num_images:
@@ -144,7 +144,7 @@ if __name__ == '__main__':
         label[np.isnan(label)] = 0
 
         flag = 1
-        for j in xrange(1, num_classes):
+        for j in range(1, num_classes):
             I = np.where(label == j)
             if len(I[0]) < 800:
                 flag = 0
@@ -156,7 +156,7 @@ if __name__ == '__main__':
         index = np.where(class_indexes >= 0)[0]
         num = len(index)
         qt = np.zeros((3, 4, num), dtype=np.float32)
-        for j in xrange(num):
+        for j in range(num):
             ind = index[j]
             qt[:, :3, j] = quat2mat(poses[ind, :4])
             qt[:, 3, j] = poses[ind, 4:]
@@ -182,11 +182,11 @@ if __name__ == '__main__':
                 background = np.zeros((rgba.shape[0], rgba.shape[1]), dtype=np.uint16)
             else:
                 background = np.zeros((rgba.shape[0], rgba.shape[1], 3), dtype=np.uint8)
-            print 'bad background image'
+            print('bad background image')
 
         if cfg.INPUT != 'DEPTH' and cfg.INPUT != 'NORMAL' and len(background.shape) != 3:
             background = np.zeros((rgba.shape[0], rgba.shape[1], 3), dtype=np.uint8)
-            print 'bad background image'
+            print('bad background image')
 
         # add background
         im = np.copy(rgba[:,:,:3])
@@ -211,7 +211,7 @@ if __name__ == '__main__':
 
         # save meta_data
         filename = root + '{:06d}-meta.mat'.format(i)
-        print filename
+        print(filename)
         scipy.io.savemat(filename, metadata, do_compression=True)
 
         i += 1

@@ -139,13 +139,13 @@ if __name__ == '__main__':
         index = np.where(class_indexes >= 0)[0]
         num = len(index)
         qt = np.zeros((3, 4, num), dtype=np.float32)
-        for j in xrange(num):
+        for j in range(num):
             ind = index[j]
             qt[:, :3, j] = quat2mat(poses[ind, :4])
             qt[:, 3, j] = poses[ind, 4:]
 
         flag = 1
-        for j in xrange(num):
+        for j in range(num):
             cls = class_indexes[index[j]] + 1
             I = np.where(label == cls)
             if len(I[0]) < 800:
@@ -165,7 +165,7 @@ if __name__ == '__main__':
         # save image
         filename = root + '{:06d}-color.png'.format(i)
         cv2.imwrite(filename, im_syn)
-        print filename
+        print(filename)
 
         # save depth
         filename = root + '{:06d}-depth.png'.format(i)

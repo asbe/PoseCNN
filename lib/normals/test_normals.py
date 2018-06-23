@@ -52,7 +52,7 @@ if __name__ == '__main__':
         depth = im.astype(np.float32, copy=True) / 10000.0
 
         nmap = gpu_normals.gpu_normals(depth, fx, fy, cx, cy, depthCutoff, 0)
-        print nmap.shape, np.nanmin(nmap), np.nanmax(nmap)
+        print(nmap.shape, np.nanmin(nmap), np.nanmax(nmap))
         nmaps.append(nmap)
 
         '''

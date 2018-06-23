@@ -14,7 +14,7 @@ import numpy as np
 import cv2
 from utils.blob import pad_im
 import os
-import cPickle
+import pickle
 import scipy.io
 
 class GtSynthesizeLayer(object):
@@ -127,8 +127,8 @@ class GtSynthesizeLayer(object):
         cache_file = os.path.join(self._cache_path, 'backgrounds.pkl')
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
-                self._backgrounds = cPickle.load(fid)
-            print '{} backgrounds loaded from {}'.format(self._name, cache_file)
+                self._backgrounds = pickle.load(fid)
+            print('{} backgrounds loaded from {}'.format(self._name, cache_file))
             return
 
         backgrounds = []
@@ -136,11 +136,11 @@ class GtSynthesizeLayer(object):
         root = os.path.join(self._cache_path, '../SUN2012/data/Images')
         subdirs = os.listdir(root)
 
-        for i in xrange(len(subdirs)):
+        for i in range(len(subdirs)):
             subdir = subdirs[i]
             names = os.listdir(os.path.join(root, subdir))
 
-            for j in xrange(len(names)):
+            for j in range(len(names)):
                 name = names[j]
                 if os.path.isdir(os.path.join(root, subdir, name)):
                     files = os.listdir(os.path.join(root, subdir, name))
@@ -164,35 +164,35 @@ class GtSynthesizeLayer(object):
             filename = os.path.join(objectnet3d, files[i])
             backgrounds.append(filename)
 
-        for i in xrange(len(backgrounds)):
+        for i in range(len(backgrounds)):
             if not os.path.isfile(backgrounds[i]):
-                print 'file not exist {}'.format(backgrounds[i])
+                print('file not exist {}'.format(backgrounds[i]))
 
         self._backgrounds = backgrounds
-        print "build background images finished"
+        print("build background images finished")
 
         with open(cache_file, 'wb') as fid:
-            cPickle.dump(backgrounds, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote backgrounds to {}'.format(cache_file)
+            pickle.dump(backgrounds, fid, pickle.HIGHEST_PROTOCOL)
+        print('wrote backgrounds to {}'.format(cache_file))
 
     def _write_background_images(self):
 
         cache_file = os.path.join(self._cache_path, self._name + '_backgrounds.pkl')
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
-                self._backgrounds = cPickle.load(fid)
+                self._backgrounds = pickle.load(fid)
 
             if self._name != 'lov_train':
                 cache_file_lov = os.path.join(self._cache_path, 'lov_train_backgrounds.pkl')
                 if os.path.exists(cache_file_lov):
                     with open(cache_file_lov, 'rb') as fid:
-                        backgrounds_lov = cPickle.load(fid)
+                        backgrounds_lov = pickle.load(fid)
                         self._backgrounds = self._backgrounds + backgrounds_lov
 
-            print '{} backgrounds loaded from {}, {} images'.format(self._name, cache_file, len(self._backgrounds))
+            print('{} backgrounds loaded from {}, {} images'.format(self._name, cache_file, len(self._backgrounds)))
             return
 
-        print "building background images"
+        print("building background images")
 
         outdir = os.path.join(self._cache_path, self._name + '_backgrounds')
         if not os.path.exists(outdir):
@@ -201,11 +201,11 @@ class GtSynthesizeLayer(object):
         num = 1000
         perm = np.random.permutation(np.arange(len(self._roidb)))
         perm = perm[:num]
-        print len(perm)
+        print(len(perm))
 
         backgrounds = [None]*num
         kernel = np.ones((50, 50), np.uint8)
-        for i in xrange(num):
+        for i in range(num):
             index = perm[i]
             # rgba
             rgba = pad_im(cv2.imread(self._roidb[index]['image'], cv2.IMREAD_UNCHANGED), 16)
@@ -230,11 +230,11 @@ class GtSynthesizeLayer(object):
             backgrounds[i] = filename
 
         self._backgrounds = backgrounds
-        print "build background images finished"
+        print("build background images finished")
 
         with open(cache_file, 'wb') as fid:
-            cPickle.dump(backgrounds, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote backgrounds to {}'.format(cache_file)
+            pickle.dump(backgrounds, fid, pickle.HIGHEST_PROTOCOL)
+        print('wrote backgrounds to {}'.format(cache_file))
 
 
     def _build_background_depth_images(self):
@@ -242,8 +242,8 @@ class GtSynthesizeLayer(object):
         cache_file = os.path.join(self._cache_path, 'backgrounds_depth.pkl')
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
-                self._backgrounds_depth = cPickle.load(fid)
-            print '{} backgrounds depth loaded from {}'.format(self._name, cache_file)
+                self._backgrounds_depth = pickle.load(fid)
+            print('{} backgrounds depth loaded from {}'.format(self._name, cache_file))
             return
 
         backgrounds = []
@@ -264,19 +264,19 @@ class GtSynthesizeLayer(object):
             image_index_val = [x.rstrip('\n') for x in f.readlines()]
 
         image_index = image_index_train + image_index_val
-        print len(image_index)
+        print(len(image_index))
 
         for i in range(len(image_index)):
             filename = os.path.join(root, 'data', image_index[i] + '-depth.png')
             backgrounds.append(filename)
 
-        for i in xrange(len(backgrounds)):
+        for i in range(len(backgrounds)):
             if not os.path.isfile(backgrounds[i]):
-                print 'file not exist {}'.format(backgrounds[i])
+                print('file not exist {}'.format(backgrounds[i]))
 
         self._backgrounds_depth = backgrounds
-        print "build background depth images finished"
+        print("build background depth images finished")
 
         with open(cache_file, 'wb') as fid:
-            cPickle.dump(backgrounds, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote backgrounds to {}'.format(cache_file)
+            pickle.dump(backgrounds, fid, pickle.HIGHEST_PROTOCOL)
+        print('wrote backgrounds to {}'.format(cache_file))

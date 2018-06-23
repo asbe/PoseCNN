@@ -20,7 +20,7 @@ import sys
 import os.path as osp
 import tensorflow as tf
 import threading
-from Queue import Queue
+from queue import Queue
 import cv2
 
 def parse_args():
@@ -212,13 +212,13 @@ def render(data_queue, intrinsic_matrix, points):
         index = np.where(class_indexes >= 0)[0]
         num = len(index)
         qt = np.zeros((3, 4, num), dtype=np.float32)
-        for j in xrange(num):
+        for j in range(num):
             ind = index[j]
             qt[:, :3, j] = quat2mat(poses[ind, :4])
             qt[:, 3, j] = poses[ind, 4:]
 
         flag = 1
-        for j in xrange(num):
+        for j in range(num):
             cls = class_indexes[index[j]] + 1
             I = np.where(label == cls)
             if len(I[0]) < 800:
@@ -233,7 +233,7 @@ def render(data_queue, intrinsic_matrix, points):
 
         # compute box
         box = np.zeros((num, 4), dtype=np.float32)
-        for j in xrange(num):
+        for j in range(num):
             cls = int(class_indexes[index[j]]) + 1
             x3d = np.ones((4, points.shape[1]), dtype=np.float32)
             x3d[0, :] = points[cls,:,0]
@@ -275,17 +275,17 @@ if __name__ == '__main__':
         np.random.seed(cfg.RNG_SEED)
 
     imdb = get_imdb(args.imdb_name)
-    print 'Loaded dataset `{:s}` for training'.format(imdb.name)
-    print 'symmetry'
-    print imdb._symmetry
+    print('Loaded dataset `{:s}` for training'.format(imdb.name))
+    print('symmetry')
+    print(imdb._symmetry)
     roidb = get_training_roidb(imdb)
 
     output_dir = get_output_dir(imdb, None)
-    print 'Output will be saved to `{:s}`'.format(output_dir)
+    print('Output will be saved to `{:s}`'.format(output_dir))
 
     device_name = '/gpu:{:d}'.format(args.gpu_id)
     cfg.GPU_ID = args.gpu_id
-    print device_name
+    print(device_name)
 
     if cfg.NETWORK == 'FCN8VGG':
         path = osp.abspath(osp.join(cfg.ROOT_DIR, args.pretrained_model))
@@ -318,7 +318,7 @@ if __name__ == '__main__':
 
     from networks.factory import get_network
     network = get_network(args.network_name)
-    print 'Use network `{:s}` in training'.format(args.network_name)
+    print('Use network `{:s}` in training'.format(args.network_name))
 
     if cfg.TRAIN.SEGMENTATION:
         train_net(network, imdb, roidb, output_dir,

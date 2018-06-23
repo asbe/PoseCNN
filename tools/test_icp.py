@@ -104,18 +104,18 @@ if __name__ == '__main__':
 
     num = len(metadata['cls_indexes'].flatten())
     poses = np.zeros((num, 7), dtype=np.float32)
-    for i in xrange(num):
+    for i in range(num):
         R = metadata['poses'][:, :3, i]
         T = metadata['poses'][:, 3, i]
         poses[i, :4] = mat2quat(R)
-        print R
+        print(R)
         poses[i, 4:] = T
-        print poses[i, :]
+        print(poses[i, :])
 
     boxes = metadata['boxes']
     rois = np.zeros((num, 6), dtype=np.float32)
-    print rois.shape, rois
-    print metadata['cls_indexes']
+    print(rois.shape, rois)
+    print(metadata['cls_indexes'])
     rois[:,1] = metadata['cls_indexes'].flatten()
     rois[:,2] = boxes[:,0]
     rois[:,3] = boxes[:,1]
@@ -128,11 +128,11 @@ if __name__ == '__main__':
     synthesizer_.estimate_poses(labels_icp, im_depth, rois, poses, poses_new, poses_icp, fx, fy, px, py, znear, zfar, factor, error_threshold)
 
     RTs = np.zeros((3, 4, num), dtype=np.float32)
-    for i in xrange(num):
+    for i in range(num):
         RTs[:, :3, i] = quat2mat(poses_icp[i, :4])
         RTs[:, 3, i] = poses_icp[i, 4:]
     metadata['poses_icp'] = RTs
-    print metadata
+    print(metadata)
     scipy.io.savemat(filename_mat, metadata, do_compression=True)
 
 
@@ -159,7 +159,7 @@ def vis_segmentations_vertmaps(im, im_depth, im_labels, im_labels_gt, colors,
     ax.set_title('class labels')      
 
     # show centers
-    for i in xrange(rois.shape[0]):
+    for i in range(rois.shape[0]):
         cx = (rois[i, 2] + rois[i, 4]) / 2
         cy = (rois[i, 3] + rois[i, 5]) / 2
         w = rois[i, 4] - rois[i, 2]
@@ -176,7 +176,7 @@ def vis_segmentations_vertmaps(im, im_depth, im_labels, im_labels_gt, colors,
     ax = fig.add_subplot(3, 4, 2, aspect='equal')
     plt.imshow(im)
     ax.invert_yaxis()
-    for i in xrange(1, num_classes):
+    for i in range(1, num_classes):
         index = np.where(labels_gt == i)
         if len(index[0]) > 0:
             # extract 3D points
@@ -203,7 +203,7 @@ def vis_segmentations_vertmaps(im, im_depth, im_labels, im_labels_gt, colors,
         ax = fig.add_subplot(3, 4, 3, aspect='equal')
         plt.imshow(im)
         ax.invert_yaxis()
-        for i in xrange(rois.shape[0]):
+        for i in range(rois.shape[0]):
             cls = int(rois[i, 1])
             index = np.where(labels_gt == cls)
             if len(index[0]) > 0:
@@ -238,7 +238,7 @@ def vis_segmentations_vertmaps(im, im_depth, im_labels, im_labels_gt, colors,
             ax = fig.add_subplot(3, 4, 4, aspect='equal')
             plt.imshow(im)
             ax.invert_yaxis()
-            for i in xrange(rois.shape[0]):
+            for i in range(rois.shape[0]):
                 cls = int(rois[i, 1])
                 index = np.where(labels_gt == cls)
                 if len(index[0]) > 0:

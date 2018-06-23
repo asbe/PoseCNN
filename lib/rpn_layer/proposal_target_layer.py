@@ -4,9 +4,9 @@
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Ross Girshick, Sean Bell and Xinlei Chen
 # --------------------------------------------------------
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import numpy as np
 import numpy.random as npr
@@ -102,7 +102,7 @@ def _compute_pose_targets(quaternions, labels, num_classes):
   poses_target = np.zeros((num, 4 * num_classes), dtype=np.float32)
   poses_weight = np.zeros((num, 4 * num_classes), dtype=np.float32)
 
-  for i in xrange(num):
+  for i in range(num):
     cls = labels[i]
     if cls > 0:
       start = int(4 * cls)
