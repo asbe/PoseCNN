@@ -127,9 +127,11 @@ def custom_tf_op(name, sources, use_opencv=False):
         language='c++',
         runtime_library_dirs=[CUDA['lib64']],
         extra_compile_args={'gcc': ['-std=c++11',
-                                    '-D GOOGLE_CUDA=1']+tf_compile_flags,
+                                    '-D GOOGLE_CUDA=1',
+                                    '-D_GLIBCXX_USE_CXX11_ABI=0']+tf_compile_flags,
                             'nvcc': ['-std=c++11',
                                      '-D GOOGLE_CUDA=1',
+                                     '-D_GLIBCXX_USE_CXX11_ABI=0',
                                      '-D_MWAITXINTRIN_H_INCLUDED']
                             +tf_compile_flags+
                                      ['-Xcompiler',
